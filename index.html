@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>لعبة الاستنتاج المنطقي</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #a2b6f795;
+      direction: rtl;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #040009;
+    }
+    select, button {
+      font-size: 18px;
+      padding: 8px 20px;
+      margin: 10px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 22px;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #ffffff;
+      border: 2px solid #999;
+      display: inline-block;
+    }
+    table {
+      width: 80%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      font-size: 18px;
+    }
+    th, td {
+      border: 1px solid #666;
+      padding: 10px;
+    }
+    th {
+      background-color: #eee;
+    }
+    .true { color: green; font-weight: bold; }
+    .false { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>💭 لعبة الاستنتاج المنطقي (Entailment)</h1>
+
+  <label>هل Brutus قتل Caesar؟ (p)</label><br>
+  <select id="pValue">
+    <option value="true">✅ نعم</option>
+    <option value="false">❌ لا</option>
+  </select><br><br>
+
+  <label>هل Caesar مات؟ (q)</label><br>
+  <select id="qValue">
+    <option value="true">✅ نعم</option>
+    <option value="false">❌ لا</option>
+  </select><br><br>
+
+  <button onclick="checkEntailment()">تحقق من الاستنتاج</button>
+
+  <div id="result"></div>
+
+  <h2>🧠 جدول الحالات المنطقية (Truth Table)</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>p (Brutus قتل)</th>
+        <th>q (Caesar مات)</th>
+        <th>النتيجة (p ⊨ q)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="true">✅ True</td>
+        <td class="true">✅ True</td>
+        <td class="true">✔️ صحيحة - منطقي تمامًا</td>
+      </tr>
+      <tr>
+        <td class="true">✅ True</td>
+        <td class="false">❌ False</td>
+        <td class="false">❌ مستحيل منطقيًا</td>
+      </tr>
+      <tr>
+        <td class="false">❌ False</td>
+        <td class="true">✅ True</td>
+        <td>❓ ممكن شخص ثاني قتله</td>
+      </tr>
+      <tr>
+        <td class="false">❌ False</td>
+        <td class="false">❌ False</td>
+        <td>✔️ منطقي – ما أحد قتل وما أحد مات</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>🔎 <b>متى نقول p ⊨ q؟</b><br>
+  لما كل مرة تكون فيها p صحيحة → لازم تكون q صحيحة. غير كذا ما يصير استنتاج منطقي.</p>
+
+  <script>
+    function checkEntailment() {
+      const p = document.getElementById("pValue").value === "true";
+      const q = document.getElementById("qValue").value === "true";
+      let result = "";
+
+      if (p && q) {
+        result = "✅ صح! Brutus قتل و Caesar فعلاً مات.";
+      } else if (p && !q) {
+        result = "❌ غير منطقي! Brutus قتله لكن Caesar ما مات؟!";
+      } else if (!p && q) {
+        result = "❓ ممكن Caesar مات بس من شخص ثاني.";
+      } else {
+        result = "✅ منطقي! Brutus ما قتل و Caesar ما مات.";
+      }
+
+      document.getElementById("result").textContent = result;
+    }
+  </script>
+
+</body>
+</html>
+
